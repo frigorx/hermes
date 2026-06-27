@@ -333,8 +333,62 @@
   </div>
 </section>
 
-<!-- ====================== POURQUOI C'EST DIFFÉRENT ====================== -->
+<!-- ====================== RAG + NOTES ====================== -->
 <section class="alt">
+  <div class="wrap">
+    <span class="kicker">Aller plus loin · une mémoire intelligente</span>
+    <h2>Greffe un RAG sur tes notes</h2>
+    <p class="lead">Une IA normale répond <b>de mémoire</b> — et quand elle ne sait pas, elle invente.
+      Un RAG (<i>Retrieval Augmented Generation</i>) change la règle&nbsp;: avant de répondre,
+      l'IA va d'abord <b>chercher dans tes propres documents</b>, en sort les passages pertinents,
+      et répond uniquement à partir de là — en citant la source. Fini l'invention.</p>
+
+    <div style="background:#fff5f0;border-left:3px solid var(--orange);border-radius:0 12px 12px 0;padding:14px 18px;margin:22px 0 28px;font-size:.97rem;line-height:1.6;">
+      <b>L'image clé :</b> au lieu d'un expert qui répond de tête, tu as un <b>documentaliste</b>
+      qui court dans ta bibliothèque, sort les bonnes fiches, et répond <em>fiche en main</em>.
+      Il ne récite pas — il s'appuie sur <b>tes écrits</b>.
+    </div>
+
+    <div class="archi">
+      <div class="bloc"><div class="num">1</div>
+        <h3>📁 Tes notes</h3>
+        <p>Un vault <b>Obsidian</b> (ou n'importe quel dossier de fichiers <code>.md</code>),
+          avec des liens <code>[[...]]</code> entre les notes. Du texte propre, organisé en réseau
+          — exactement ce qu'un RAG adore.</p>
+      </div>
+      <div class="bloc"><div class="num">2</div>
+        <h3>🧮 L'empreinte de sens</h3>
+        <p>Chaque note est découpée en passages. Un modèle local (<code>nomic-embed-text</code>,
+          déjà sur Ollama) transforme chacun en une suite de nombres où
+          <b>sens proche = nombres proches</b>. Tout ça, en local, sans rien envoyer.</p>
+      </div>
+      <div class="bloc"><div class="num">3</div>
+        <h3>💬 La réponse sourcée</h3>
+        <p>Ta question → on cherche les passages les plus proches → on les donne à l'IA
+          avec ta question → elle rédige en <b>s'appuyant uniquement sur tes écrits</b>
+          et cite la note source. Le graphe de liens enrichit encore les résultats.</p>
+      </div>
+    </div>
+
+    <div class="grid g3" style="margin-top:28px;">
+      <div class="carte"><div class="ico">🎯</div><h3>Réponses sourcées</h3>
+        <p>Elle cite tes notes. Tu peux recouper. Fini le « d'où ça sort&nbsp;? »</p></div>
+      <div class="carte"><div class="ico">🛡️</div><h3>Anti-hallucination</h3>
+        <p>Elle s'appuie sur <b>tes</b> écrits, pas sur sa mémoire floue. La fiabilité que tu veux.</p></div>
+      <div class="carte"><div class="ico">🧠</div><h3>500 notes interrogeables</h3>
+        <p>« Qu'est-ce que j'avais noté sur… ? » → réponse en 2 secondes, même sur un gros vault.</p></div>
+      <div class="carte"><div class="ico">🔄</div><h3>Toujours à jour</h3>
+        <p>Tu ajoutes une note → elle entre dans le savoir. Zéro ré-entraînement, zéro coût.</p></div>
+      <div class="carte"><div class="ico">🔒</div><h3>100&nbsp;% local possible</h3>
+        <p>Embeddings, base et IA sur ton PC. Rien ne sort. RGPD sans bandeau.</p></div>
+      <div class="carte"><div class="ico">🕸️</div><h3>Le réseau [[liens]] sert enfin</h3>
+        <p>Les connexions que tu as tissées dans Obsidian enrichissent les résultats de recherche.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== POURQUOI C'EST DIFFÉRENT ====================== -->
+<section>
   <div class="wrap">
     <span class="kicker">Pourquoi c'est différent</span>
     <h2>« Parler » contre « faire »</h2>
@@ -362,7 +416,7 @@
 </section>
 
 <!-- ====================== INSTALLATION ====================== -->
-<section>
+<section class="alt">
   <div class="wrap">
     <span class="kicker">Mise en route</span>
     <h2>S'installer en 3 temps</h2>
