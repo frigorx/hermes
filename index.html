@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hermès — l'assistant qui a les mains</title>
+<style>
+  *{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  :root{
+    --nuit:#0f1d33; --nuit2:#16294a; --bleu:#1b3a63; --bleu-clair:#2c5f9e;
+    --orange:#ff6b35; --orange-clair:#ff8c5e;
+    --creme:#f5f7fb; --carte:#ffffff; --encre:#16202e; --encre-doux:#48586c;
+    --trait:#e3e8f0; --vert:#1faa6c;
+  }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:var(--creme); color:var(--encre); line-height:1.6;
+    font-size:16px;
+  }
+  .wrap{ max-width:920px; margin:0 auto; padding:0 22px; }
+  h1,h2,h3{ line-height:1.2; }
+  p{ margin:.55em 0; }
+  small{ font-size:.82rem; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background:radial-gradient(1200px 500px at 70% -10%, #2c5f9e55, transparent),
+               linear-gradient(135deg, #0c1729 0%, var(--nuit) 45%, var(--bleu) 100%);
+    color:#eaf1fb; padding:54px 0 60px; position:relative; overflow:hidden;
+  }
+  .hero .wrap{ position:relative; z-index:2; }
+  .badge{
+    display:inline-flex; align-items:center; gap:8px; font-size:.78rem; font-weight:600;
+    letter-spacing:.04em; text-transform:uppercase; color:#bcd0ee;
+    border:1px solid #ffffff33; border-radius:999px; padding:5px 13px; background:#ffffff10;
+  }
+  .hero h1{ font-size:3.1rem; margin:.35em 0 .1em; font-weight:800; letter-spacing:-.01em; }
+  .hero h1 .casque{ font-size:2.7rem; }
+  .hero .accroche{ font-size:1.45rem; color:#ff9d6e; font-weight:700; margin:.1em 0 .3em; }
+  .hero .sous{ font-size:1.12rem; color:#cdddf2; max-width:640px; }
+  .hero .ligne-meta{ margin-top:22px; display:flex; gap:10px; flex-wrap:wrap; }
+  .pill{ background:#ffffff14; border:1px solid #ffffff22; border-radius:10px; padding:7px 13px; font-size:.9rem; color:#dce8f7; }
+  .pill b{ color:#fff; }
+  .halo{ position:absolute; right:-80px; top:-60px; font-size:360px; opacity:.06; transform:rotate(-12deg); z-index:1; }
+
+  /* ---------- SECTIONS ---------- */
+  section{ padding:46px 0; }
+  section.alt{ background:#eef2f8; }
+  .kicker{ color:var(--orange); font-weight:800; font-size:.82rem; letter-spacing:.09em; text-transform:uppercase; }
+  h2{ font-size:1.95rem; margin:.18em 0 .35em; font-weight:800; color:var(--nuit); }
+  .lead{ font-size:1.12rem; color:var(--encre-doux); max-width:680px; }
+
+  /* ---------- CARTES ---------- */
+  .grid{ display:grid; gap:16px; margin-top:24px; }
+  .g2{ grid-template-columns:1fr 1fr; }
+  .g3{ grid-template-columns:1fr 1fr 1fr; }
+  .carte{
+    background:var(--carte); border:1px solid var(--trait); border-radius:15px; padding:20px 20px;
+    box-shadow:0 4px 18px #0f1d3308; break-inside:avoid;
+  }
+  .carte .ico{ font-size:1.7rem; }
+  .carte h3{ font-size:1.12rem; margin:.45em 0 .25em; color:var(--nuit); }
+  .carte p{ color:var(--encre-doux); font-size:.96rem; margin:.2em 0; }
+  .carte.vedette{ border:1.5px solid var(--orange); box-shadow:0 8px 26px #ff6b3522; }
+  .tag{ display:inline-block; font-size:.72rem; font-weight:700; padding:3px 9px; border-radius:999px; }
+  .tag.cloud{ background:#fff0e8; color:#d6531f; }
+  .tag.local{ background:#e7f6ee; color:#13845a; }
+
+  /* ---------- DÉMO (fenêtres) ---------- */
+  .demo{
+    background:#0e1a2e; border-radius:16px; overflow:hidden; margin-top:22px;
+    box-shadow:0 14px 40px #0c172955; border:1px solid #20324f; break-inside:avoid;
+  }
+  .demo-barre{ background:#152540; padding:11px 15px; display:flex; align-items:center; gap:9px; border-bottom:1px solid #20324f; }
+  .feu{ width:12px; height:12px; border-radius:50%; }
+  .feu.r{ background:#ff5f57; } .feu.j{ background:#febc2e; } .feu.v{ background:#28c840; }
+  .demo-titre{ color:#8fa6c6; font-size:.82rem; margin-left:8px; font-weight:600; }
+  .demo-corps{ padding:18px 18px 20px; }
+  .scene-label{ color:var(--orange-clair); font-weight:700; font-size:.78rem; letter-spacing:.05em; text-transform:uppercase; margin-bottom:10px; }
+  .bulle{ max-width:84%; padding:11px 15px; border-radius:14px; margin:9px 0; line-height:1.5; font-size:.97rem; }
+  .b-moi{ margin-left:auto; background:var(--orange); color:#fff; border-bottom-right-radius:4px; }
+  .b-moi .qui{ color:#ffe2d4; }
+  .b-her{ background:#1b3157; color:#e7eefb; border:1px solid #2a486f; border-bottom-left-radius:4px; }
+  .qui{ font-size:.72rem; opacity:.85; margin-bottom:3px; font-weight:700; }
+  .actions{ background:#0a1525; border:1px solid #1d3050; border-radius:11px; padding:12px 14px; margin:11px 0 4px; font-family:'Cascadia Code',Consolas,monospace; font-size:.86rem; color:#a9c2e6; }
+  .actions .l{ display:flex; gap:9px; padding:2px 0; }
+  .actions .fl{ color:#5e85c0; }
+  .actions .ok{ color:#46d39a; }
+  .actions .ok b{ color:#7af0bd; }
+  .chip-prive{ display:inline-flex; align-items:center; gap:7px; margin-top:12px; background:#0c2a20; border:1px solid #1c6b4d; color:#7ce6b4; font-size:.84rem; padding:7px 13px; border-radius:10px; }
+
+  /* ---------- SOUS LE CAPOT (archi) ---------- */
+  .archi{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-top:24px; }
+  .bloc{ background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:18px; break-inside:avoid; position:relative; }
+  .bloc .num{ position:absolute; top:-12px; left:16px; background:var(--nuit); color:#fff; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; font-size:.9rem; }
+  .bloc h3{ margin:.4em 0 .3em; color:var(--nuit); font-size:1.05rem; }
+  .bloc p{ font-size:.9rem; color:var(--encre-doux); }
+  .bloc code{ background:#eef2f8; border:1px solid #dce3ee; border-radius:6px; padding:1px 6px; font-size:.83rem; color:#274169; }
+
+  /* ---------- POURQUOI / COMPARATIF ---------- */
+  .vs{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:22px; }
+  .vs .col{ border-radius:15px; padding:20px 22px; break-inside:avoid; }
+  .vs .froid{ background:#fff; border:1px solid var(--trait); }
+  .vs .chaud{ background:linear-gradient(135deg,#1b3a63,#0f1d33); color:#eaf1fb; }
+  .vs h3{ font-size:1.15rem; margin:0 0 .5em; }
+  .vs ul{ margin:.4em 0 0; padding-left:1.15em; }
+  .vs li{ margin:.4em 0; }
+  .vs .froid li::marker{ color:#c2ccd9; }
+  .vs .chaud li::marker{ color:var(--orange); }
+  .vs .chaud .froid-note{ color:#bcd0ee; }
+
+  /* ---------- INSTALL ---------- */
+  .etapes{ counter-reset:e; margin-top:24px; display:grid; gap:14px; }
+  .etape{ background:var(--carte); border:1px solid var(--trait); border-radius:14px; padding:18px 20px 18px 64px; position:relative; break-inside:avoid; }
+  .etape::before{ counter-increment:e; content:counter(e); position:absolute; left:18px; top:18px; width:32px; height:32px; background:var(--orange); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; }
+  .etape h3{ margin:.1em 0 .25em; color:var(--nuit); font-size:1.08rem; }
+  .etape p{ color:var(--encre-doux); margin:.2em 0; font-size:.96rem; }
+  .etape code{ background:#0e1a2e; color:#e7eefb; border-radius:6px; padding:2px 8px; font-size:.86rem; }
+
+  /* ---------- CTA TÉLÉCHARGEMENT ---------- */
+  .cta{ background:linear-gradient(135deg,#12263f,#0f1d33); color:#eaf1fb; text-align:center; padding:50px 0; }
+  .cta h2{ color:#fff; }
+  .cta p{ color:#cdddf2; max-width:560px; margin:.4em auto 1.4em; }
+  .bouton{
+    display:inline-flex; align-items:center; gap:11px; background:var(--orange); color:#fff;
+    text-decoration:none; font-weight:800; font-size:1.08rem; padding:15px 28px; border-radius:13px;
+    box-shadow:0 10px 30px #ff6b3540; border:none;
+  }
+  .bouton:hover{ background:var(--orange-clair); }
+  .cta .fichier{ margin-top:12px; font-size:.85rem; color:#9fb6d4; }
+
+  footer{ background:#0a1322; color:#7e93b3; text-align:center; padding:26px 0; font-size:.85rem; }
+  footer b{ color:#c7d6ee; }
+
+  @media (max-width:760px){
+    .g2,.g3,.archi,.vs{ grid-template-columns:1fr; }
+    .hero h1{ font-size:2.3rem; }
+  }
+  @media print{
+    section{ padding:30px 0; }
+    .hero{ padding:38px 0 40px; }
+    body{ font-size:13px; }
+    .bouton{ box-shadow:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ====================== HERO ====================== -->
+<header class="hero">
+  <div class="halo">🪽</div>
+  <div class="wrap">
+    <span class="badge">🪽 Projet Hermès · assistant personnel sur ton PC</span>
+    <h1><span class="casque">⚜️</span> Hermès</h1>
+    <div class="accroche">L'assistant qui a les mains.</div>
+    <p class="sous">Ce n'est pas un chatbot de plus. C'est une intelligence artificielle qui s'installe
+      sur ton ordinateur, comprend ce que tu lui demandes en français courant… et le <b>fait</b> :
+      elle ouvre tes fichiers, les range, écrit tes documents, construit des petits outils, automatise
+      le pénible. Plus un mode <b>100&nbsp;% hors ligne et gratuit</b> pour le quotidien.</p>
+    <div class="ligne-meta">
+      <span class="pill">🧠 <b>Agit</b> sur tes fichiers</span>
+      <span class="pill">🔒 Un mode <b>local</b>, rien ne sort du PC</span>
+      <span class="pill">🛡️ <b>Garde-fou</b> anti-mauvaise surprise</span>
+      <span class="pill">🇫🇷 Tout en <b>français</b></span>
+    </div>
+  </div>
+</header>
+
+<!-- ====================== LE PITCH ====================== -->
+<section>
+  <div class="wrap">
+    <span class="kicker">Le projet en deux mots</span>
+    <h2>Une IA de bureau, pas une IA de salon</h2>
+    <p class="lead">La plupart des IA grand public <b>parlent</b> : tu poses une question, elles répondent
+      par un texte que tu dois ensuite recopier et appliquer toi-même. Hermès, lui, est branché
+      <b>directement sur ton ordinateur</b>. Tu lui décris le résultat voulu ; il se met au travail,
+      manipule réellement les fichiers, et te rend le travail terminé. C'est la différence entre un
+      conseiller au téléphone et un assistant assis à côté de toi.</p>
+  </div>
+</section>
+
+<!-- ====================== DÉMO VIVANTE ====================== -->
+<section class="alt">
+  <div class="wrap">
+    <span class="kicker">La démonstration</span>
+    <h2>Regarde-le travailler</h2>
+    <p class="lead">Trois scènes réelles. À gauche, ce que tu tapes en français. En dessous,
+      ce qu'Hermès fait <i>vraiment</i> sur la machine.</p>
+
+    <!-- Scène 1 -->
+    <div class="demo">
+      <div class="demo-barre"><span class="feu r"></span><span class="feu j"></span><span class="feu v"></span>
+        <span class="demo-titre">Hermès — Claude Code · dossier C:\Hermes</span></div>
+      <div class="demo-corps">
+        <div class="scene-label">Scène 1 · Mettre de l'ordre</div>
+        <div class="bulle b-moi"><div class="qui">Moi</div>Mon dossier Téléchargements est un vrai bazar.
+          Range-le par type dans des sous-dossiers, sans rien supprimer.</div>
+        <div class="bulle b-her"><div class="qui">Hermès</div>C'est parti — je regarde d'abord, je range ensuite.</div>
+        <div class="actions">
+          <div class="l"><span class="fl">→</span><span>Lecture de C:\Users\…\Téléchargements — 247 fichiers trouvés</span></div>
+          <div class="l"><span class="fl">→</span><span>Création des dossiers : Images · PDF · Documents · Installateurs · Divers</span></div>
+          <div class="l"><span class="fl">→</span><span>Déplacement de 247 fichiers selon leur type…</span></div>
+          <div class="l"><span class="ok">✓</span><span class="ok"><b>Terminé.</b> 247 fichiers rangés en 5 catégories. Aucun fichier supprimé.</span></div>
+        </div>
+        <div class="bulle b-her"><div class="qui">Hermès</div>Voilà, c'est rangé. J'ai mis les doublons de côté
+          dans « Divers » plutôt que de les effacer — tu jetteras toi-même si tu veux.</div>
+      </div>
+    </div>
+
+    <!-- Scène 2 -->
+    <div class="demo">
+      <div class="demo-barre"><span class="feu r"></span><span class="feu j"></span><span class="feu v"></span>
+        <span class="demo-titre">Hermès — Claude Code · dossier C:\Hermes\travaux</span></div>
+      <div class="demo-corps">
+        <div class="scene-label">Scène 2 · Se fabriquer un outil sur mesure</div>
+        <div class="bulle b-moi"><div class="qui">Moi</div>Fais-moi une petite page web pour calculer un devis :
+          je saisis le montant hors taxes, elle m'affiche la TVA à 20&nbsp;% et le total TTC.</div>
+        <div class="actions">
+          <div class="l"><span class="fl">→</span><span>Création du fichier devis.html (page + calcul automatique)</span></div>
+          <div class="l"><span class="ok">✓</span><span class="ok"><b>Prêt.</b> Double-clique sur devis.html — ça s'ouvre dans ton navigateur.</span></div>
+        </div>
+        <div class="bulle b-her"><div class="qui">Hermès</div>Tu tapes le montant HT, le TTC se met à jour tout seul.
+          Tu veux que j'ajoute un bouton « imprimer » ou un choix du taux de TVA (5,5 / 10 / 20&nbsp;%) ?</div>
+      </div>
+    </div>
+
+    <!-- Scène 3 -->
+    <div class="demo">
+      <div class="demo-barre"><span class="feu r"></span><span class="feu j"></span><span class="feu v"></span>
+        <span class="demo-titre">Hermès — chat local (Ollama) · http://127.0.0.1:4545</span></div>
+      <div class="demo-corps">
+        <div class="scene-label">Scène 3 · Le mode privé, hors ligne</div>
+        <div class="bulle b-moi"><div class="qui">Moi</div>Relis ce courrier un peu sec et rends-le plus poli,
+          mais garde-le court.</div>
+        <div class="bulle b-her"><div class="qui">Hermès (local)</div>Voici une version plus courtoise et
+          toujours brève… <i>[réécriture du courrier]</i></div>
+        <div class="chip-prive">🔒 100&nbsp;% sur ton PC — débranche internet, ça marche pareil. Rien n'a été envoyé.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== SOUS LE CAPOT ====================== -->
+<section>
+  <div class="wrap">
+    <span class="kicker">Sous le capot · un peu de technique</span>
+    <h2>Comment ça marche, sans magie</h2>
+    <p class="lead">Hermès, ce sont trois briques bien distinctes. Tu choisis celle qui convient à
+      l'instant : puissance, gratuité, ou confidentialité.</p>
+
+    <div class="archi">
+      <div class="bloc"><div class="num">1</div>
+        <h3>🧠 L'IA agentique</h3>
+        <p>Le « super pouvoir ». Une IA de pointe (<b>Claude Code</b>) qui ne se contente pas d'écrire :
+          elle <b>lit et modifie réellement</b> les fichiers et lance des commandes. C'est un <i>agent</i>,
+          pas un perroquet. Elle a besoin d'internet — c'est le mode pour le travail sérieux.</p>
+      </div>
+      <div class="bloc"><div class="num">2</div>
+        <h3>🔒 Le chat local</h3>
+        <p>Un mini-serveur (~120 lignes de <code>Node.js</code>, zéro dépendance) qui relaie tes messages
+          vers <b>Ollama</b> : des modèles d'IA qui tournent <b>sur ta propre machine</b>. Gratuit, illimité,
+          et <b>aucune donnée ne quitte le PC</b>. Idéal pour le perso et le confidentiel.</p>
+      </div>
+      <div class="bloc"><div class="num">3</div>
+        <h3>🛡️ La voie cloud, sous clé</h3>
+        <p>Une porte vers des IA cloud plus puissantes, <b>câblée mais verrouillée</b> : tant qu'aucune
+          clé n'est posée dans <code>config.json</code>, rien ne peut être facturé. Et chaque appel payant
+          <b>demande confirmation</b> puis <b>affiche son coût</b>. Pas de dérapage de facture possible.</p>
+      </div>
+    </div>
+    <p class="lead" style="margin-top:22px">Le tout vit dans un seul dossier, <code style="background:#eef2f8;border:1px solid #dce3ee;border-radius:6px;padding:1px 6px;color:#274169">C:\Hermes</code>,
+      avec deux raccourcis sur le bureau : <b>Hermes</b> (l'agent) et <b>Hermes-local</b> (le chat hors ligne).
+      Simple à comprendre, simple à sauvegarder.</p>
+  </div>
+</section>
+
+<!-- ====================== LA PALETTE D'IA ====================== -->
+<section class="alt">
+  <div class="wrap">
+    <span class="kicker">Une palette, pas un seul outil</span>
+    <h2>La bonne IA pour le bon besoin</h2>
+    <p class="lead">C'est l'idée centrale du projet : on ne dépend pas d'un seul cerveau. On garde une
+      <b>boîte à outils</b> et on choisit — dans un simple menu déroulant — le modèle adapté à la tâche,
+      à la puissance de la machine et au niveau de confidentialité voulu.</p>
+
+    <h3 style="color:var(--nuit);font-size:1.18rem;margin:30px 0 2px">① Selon la puissance de ta machine <span style="color:var(--vert);font-weight:700">· local & gratuit</span></h3>
+    <p style="color:var(--encre-doux);margin:.2em 0 .2em">Repère simple : un modèle réclame à peu près autant de mémoire que son poids (2 à 8&nbsp;Go). Avec une carte graphique, c'est nettement plus rapide.</p>
+    <div class="grid g3">
+      <div class="carte"><div class="ico">💻</div><h3>Petit PC</h3>
+        <p><small><b>8&nbsp;Go de RAM, sans carte graphique</b></small></p>
+        <p>Léger et rapide — parfait pour rédiger, résumer, discuter.</p>
+        <p><span class="tag local">qwen2.5:3b</span> <span class="tag local">gemma3:4b</span> <small>· ~2–3&nbsp;Go</small></p>
+      </div>
+      <div class="carte"><div class="ico">🖥️</div><h3>PC standard</h3>
+        <p><small><b>16&nbsp;Go de RAM</b></small></p>
+        <p>Le bon équilibre : un généraliste costaud + un spécialiste du code.</p>
+        <p><span class="tag local">mistral-nemo:12b</span> <span class="tag local">qwen2.5-coder:7b</span> <small>· ~5–7&nbsp;Go</small></p>
+      </div>
+      <div class="carte"><div class="ico">🚀</div><h3>Station costaud</h3>
+        <p><small><b>32&nbsp;Go+ et/ou carte RTX</b></small></p>
+        <p>Des modèles plus gros, réponses plus fines — on s'approche du cloud.</p>
+        <p><span class="tag local">gemma3:12b</span> <small>· 8&nbsp;Go et au-delà</small></p>
+      </div>
+    </div>
+
+    <h3 style="color:var(--nuit);font-size:1.18rem;margin:34px 0 2px">② Selon le besoin <span style="color:var(--encre-doux);font-weight:600">· on bascule en un clic</span></h3>
+    <div class="grid g2" style="margin-top:14px">
+      <div class="carte"><div class="ico">🧠</div><h3>Généraliste</h3><p>Rédiger, expliquer, réfléchir à voix haute. <small>→ <b>mistral-nemo</b> (local)</small></p></div>
+      <div class="carte"><div class="ico">👨‍💻</div><h3>Coder</h3><p>Scripts, petits programmes, débogage. <small>→ <b>qwen2.5-coder</b> (local)</small></p></div>
+      <div class="carte"><div class="ico">⚡</div><h3>Léger & rapide</h3><p>Réponse quasi instantanée, même sur petit PC. <small>→ <b>gemma3:4b · qwen2.5:3b</b> (local)</small></p></div>
+      <div class="carte vedette"><div class="ico">☁️</div><h3>Cloud puissant <span class="tag cloud">sous garde-fou</span></h3><p>Pour les passages difficiles, on monte en gamme. <small>→ <b>Claude Haiku → Sonnet → Opus</b>, du plus rapide au plus fort — activable avec une clé, chaque appel confirmé et son coût affiché.</small></p></div>
+    </div>
+
+    <p class="lead" style="margin-top:24px">👉 <b>La perspective :</b> à terme, Hermès peut <b>router tout seul</b> — gérer le volume en
+      local gratuit, et n'appeler le cloud que pour les moments délicats. La bonne IA, au bon moment, sans y penser.</p>
+  </div>
+</section>
+
+<!-- ====================== CE QUE TU PEUX FAIRE ====================== -->
+<section>
+  <div class="wrap">
+    <span class="kicker">À quoi ça sert, concrètement</span>
+    <h2>Des exemples de la vraie vie</h2>
+    <div class="grid g3">
+      <div class="carte"><div class="ico">🗂️</div><h3>Ranger & classer</h3><p>Trier un dossier en vrac, renommer 200 photos par date, fusionner des PDF, archiver proprement.</p></div>
+      <div class="carte"><div class="ico">✍️</div><h3>Écrire & corriger</h3><p>Lettres, mails, comptes-rendus, CV, annonces, devis — rédigés, relus et mis en forme.</p></div>
+      <div class="carte"><div class="ico">📊</div><h3>Tableurs & données</h3><p>« Fais-moi un Excel à partir de ces notes », extraire les chiffres clés d'un relevé, faire un récap.</p></div>
+      <div class="carte"><div class="ico">🛠️</div><h3>Petits outils maison</h3><p>Une calculette, un planning, un site vitrine, une appli sur mesure — même sans rien y connaître.</p></div>
+      <div class="carte"><div class="ico">📄</div><h3>Lire & résumer</h3><p>Résumer un document de 40 pages, expliquer un contrat, sortir l'essentiel d'un long courrier.</p></div>
+      <div class="carte"><div class="ico">🤖</div><h3>Automatiser le pénible</h3><p>La tâche répétitive du lundi matin ? Décris-la une fois, Hermès la refait à ta place.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== POURQUOI C'EST DIFFÉRENT ====================== -->
+<section class="alt">
+  <div class="wrap">
+    <span class="kicker">Pourquoi c'est différent</span>
+    <h2>« Parler » contre « faire »</h2>
+    <div class="vs">
+      <div class="col froid">
+        <h3>🗣️ Un chatbot classique</h3>
+        <ul>
+          <li>Te donne un texte ou une marche à suivre.</li>
+          <li>À toi de tout recopier et d'agir.</li>
+          <li>Ne touche pas à tes fichiers.</li>
+          <li>Tes données partent sur internet.</li>
+        </ul>
+      </div>
+      <div class="col chaud">
+        <h3>🪽 Hermès</h3>
+        <ul>
+          <li><b>Exécute</b> : le travail est fait, pas juste expliqué.</li>
+          <li>Agit directement sur <b>tes fichiers</b>, sur ta machine.</li>
+          <li>Deux modes : puissant (cloud) <b>ou</b> privé (local hors ligne).</li>
+          <li><b>Garde-fou facture</b> intégré, et un espace 100&nbsp;% à toi.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== INSTALLATION ====================== -->
+<section>
+  <div class="wrap">
+    <span class="kicker">Mise en route</span>
+    <h2>S'installer en 3 temps</h2>
+    <p class="lead">Tout est guidé : un seul fichier explique le reste, et l'IA fait elle-même le gros du montage.</p>
+    <div class="etapes">
+      <div class="etape">
+        <h3>Préparer le terrain</h3>
+        <p>Créer un compte Claude (formule adaptée à Claude Code), puis installer l'appli Claude, <b>Node.js</b>
+          et <b>Ollama</b> avec un ou deux modèles. Tout est détaillé pas à pas dans le fichier.</p>
+      </div>
+      <div class="etape">
+        <h3>Récupérer le fichier d'installation</h3>
+        <p>Télécharger le markdown ci-dessous et le poser sur le PC (par exemple dans un dossier <code>C:\Hermes</code>).</p>
+      </div>
+      <div class="etape">
+        <h3>Laisser l'IA monter le décor</h3>
+        <p>Lancer Claude Code et lui dire&nbsp;: <code>Lis ce fichier et exécute la PARTIE B. Mon prénom est ___</code>.
+          Il crée le dossier, écrit tous les fichiers et pose les raccourcis. <b>C'est prêt.</b></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================== TÉLÉCHARGEMENT ====================== -->
+<section class="cta">
+  <div class="wrap">
+    <span class="kicker" style="color:#ff9d6e">Tout est dans un seul fichier</span>
+    <h2>Récupère le guide d'installation</h2>
+    <p>Un markdown autonome : il contient toute la marche à suivre <i>et</i> tous les fichiers du projet.
+      Donne-le à Claude Code, il s'occupe du reste.</p>
+    <a class="bouton" href="INSTALLER-HERMES.md" download>⬇️ Télécharger le guide d'installation</a>
+    <div class="fichier">INSTALLER-HERMES.md · ~28 Ko · à ouvrir avec Claude Code</div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    🪽 <b>Projet Hermès</b> — une IA personnelle qui agit, sur ta machine, à ta main.<br>
+    <small>HAL est bridé, Hermès est libre. Le moteur est le même ; les deux costumes diffèrent.</small><br>
+    <small style="opacity:.7">Mesure d'audience anonyme, sans cookie.</small>
+  </div>
+</footer>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "86c8808b88f3489c8f37af96810d5f1e"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
