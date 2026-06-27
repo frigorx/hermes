@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Téléchargement — Guide d'installation Hermès</title>
+<style>
+  *{ box-sizing:border-box; }
+  body{ margin:0; min-height:100vh; display:flex; align-items:center; justify-content:center;
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:linear-gradient(135deg,#0c1729,#0f1d33 45%,#1b3a63); color:#eaf1fb; text-align:center; padding:24px; }
+  .carte{ max-width:520px; background:#ffffff10; border:1px solid #ffffff22; border-radius:18px; padding:38px 30px; box-shadow:0 18px 50px #0006; }
+  .casque{ font-size:2.6rem; }
+  h1{ font-size:1.5rem; margin:.5em 0 .3em; }
+  p{ color:#cdddf2; line-height:1.6; margin:.5em 0; }
+  .bouton{ display:inline-flex; align-items:center; gap:10px; background:#ff6b35; color:#fff; text-decoration:none;
+    font-weight:800; font-size:1.02rem; padding:13px 24px; border-radius:12px; margin-top:14px; box-shadow:0 10px 28px #ff6b3540; }
+  .bouton:hover{ background:#ff8c5e; }
+  .retour{ display:block; margin-top:20px; color:#9fb6d4; font-size:.88rem; text-decoration:none; }
+  .retour:hover{ color:#cdddf2; }
+  .fichier{ margin-top:10px; font-size:.82rem; color:#9fb6d4; }
+</style>
+</head>
+<body>
+  <div class="carte">
+    <div class="casque">⚜️</div>
+    <h1>Ton téléchargement démarre…</h1>
+    <p>Le guide d'installation <b>Hermès</b> se télécharge automatiquement.<br>
+       Si rien ne se passe, clique ci-dessous.</p>
+    <a class="bouton" id="dl" href="INSTALLER-HERMES.md" download>⬇️ Télécharger le guide</a>
+    <div class="fichier">INSTALLER-HERMES.md · à ouvrir avec Claude Code</div>
+    <a class="retour" href="./">← Revenir à la présentation</a>
+  </div>
+
+  <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "86c8808b88f3489c8f37af96810d5f1e"}'></script><!-- End Cloudflare Web Analytics -->
+  <script>
+    // Déclenche le téléchargement automatiquement (le passage sur CETTE page = 1 téléchargement compté).
+    window.addEventListener('load', function(){
+      setTimeout(function(){
+        var a = document.getElementById('dl');
+        a.click();
+      }, 600);
+    });
+  </script>
+</body>
+</html>
